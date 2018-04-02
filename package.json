@@ -38,6 +38,7 @@
     "@ahmadnassri/spawn-promise": "^1.1.2",
     "@greenlight/schema-plugin": "^1.0.1",
     "@greenlight/schema-report": "^1.0.0",
+    "ajv": "^6.4.0",
     "make-dir": "^1.2.0"
   }
 }
