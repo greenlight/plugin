@@ -10,7 +10,9 @@
   },
   "license": "ISC",
   "main": "index.js",
-  "keywords": [],
+  "keywords": [
+    "greenlight"
+  ],
   "publishConfig": {
     "access": "public"
   },
