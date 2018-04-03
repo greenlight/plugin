@@ -1,6 +1,6 @@
 repository:
   name: plugin
-  description: Greenlight Plugin Runner
+  description: 🚦 Greenlight Plugin Runner
   topics: greenlight, plugin
   homepage: https://greenlight.ci/
   private: false
