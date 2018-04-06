@@ -6,7 +6,7 @@
   "homepage": "https://greenlight.ci/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/greenlight-ci/plugin.git"
+    "url": "https://github.com/greenlight/plugin.git"
   },
   "license": "ISC",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "lib"
   ],
   "bugs": {
-    "url": "https://github.com/greenlight-ci/plugin/issues"
+    "url": "https://github.com/greenlight/plugin/issues"
   },
   "scripts": {
     "pretest": "make",
