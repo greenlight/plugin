@@ -1,11 +1,28 @@
 #!/usr/bin/env node
 
-const { join } = require('path')
-const { readFileSync } = require('fs')
+const report = {
+  version: '1.0.0',
+  plugin: 'eslint',
+  issues: [
+    {
+      id: '123456',
+      name: 'semi',
+      description: 'Extra semicolon',
+      severity: 'critical',
+      context: {
+        type: 'file',
+        path: 'path/to/file.js',
+        start: {
+          line: 2,
+          column: 10
+        },
+        end: {
+          line: 2,
+          column: 11
+        }
+      }
+    }
+  ]
+}
 
-const info = readFileSync(join(__dirname, 'plugin.json'), 'utf-8')
-const report = readFileSync(join(__dirname, 'report.json'), 'utf-8')
-
-const command = process.argv[2]
-
-console.log(command === 'info' ? info : report)
+console.log(JSON.stringify(report))

@@ -1,13 +1,13 @@
 ![Greenlight Logo](https://gitcdn.link/repo/greenlight/brand/master/logo/banner.svg)
 
-# Greenlight Plugin [![version][npm-version]][npm-url] [![License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
+# Greenlight Docker [![version][npm-version]][npm-url] [![License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
-> [Greenlight][] Plugin
+> [Greenlight][] Docker Manager
 
 ## Install
 
 ```bash
-npm install --production --save @greenlight/plugin
+npm install --production --save @greenlight/docker
 ```
 
 ---
@@ -19,14 +19,14 @@ npm install --production --save @greenlight/plugin
 
 [greenlight]: https://greenlight.ci
 
-[license-image]: https://img.shields.io/github/license/greenlight/plugin.svg?style=flat-square
+[license-image]: https://img.shields.io/github/license/greenlight/docker.svg?style=flat-square
 
 [license-url]: http://choosealicense.com/licenses/isc/
 
-[npm-url]: https://www.npmjs.com/package/@greenlight/plugin
+[npm-url]: https://www.npmjs.com/package/@greenlight/docker
 
-[npm-version]: https://img.shields.io/npm/v/@greenlight/plugin.svg?style=flat-square
+[npm-version]: https://img.shields.io/npm/v/@greenlight/docker.svg?style=flat-square
 
-[travis-image]: https://img.shields.io/travis/greenlight/plugin.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/greenlight/docker.svg?style=flat-square
 
-[travis-url]: https://travis-ci.org/greenlight/plugin
+[travis-url]: https://travis-ci.org/greenlight/docker

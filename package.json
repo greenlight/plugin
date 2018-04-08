@@ -1,12 +1,12 @@
 {
   "version": "0.0.0-development",
-  "name": "@greenlight/plugin",
-  "description": "Greenlight Plugin Runner",
+  "name": "@greenlight/docker",
+  "description": "Greenlight Docker Manager",
   "author": "Ahmad Nassri <ahmad@ahmadnassri.com> (https://www.ahmadnassri.com/)",
   "homepage": "https://greenlight.ci/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/greenlight/plugin.git"
+    "url": "https://github.com/greenlight/docker.git"
   },
   "license": "ISC",
   "main": "index.js",
@@ -23,10 +23,13 @@
     "lib"
   ],
   "bugs": {
-    "url": "https://github.com/greenlight/plugin/issues"
+    "url": "https://github.com/greenlight/docker/issues"
   },
   "scripts": {
-    "pretest": "make",
+    "build": "npm run build:valid && npm run build:invalid",
+    "build:valid": "docker build -t greenlight/valid test/fixtures/plugins/valid",
+    "build:invalid": "docker build -t greenlight/invalid test/fixtures/plugins/invalid",
+    "pretest": "npm run build",
     "test": "npm run test:tap",
     "test:tap": "tap test/*.js --100 --coverage-report=lcov --no-browser",
     "coverage": "opener coverage/lcov-report/index.html"
@@ -35,10 +38,9 @@
     "tap": "^11.1.3"
   },
   "dependencies": {
-    "@ahmadnassri/error": "^1.1.1",
     "@ahmadnassri/spawn-promise": "^1.1.2",
-    "@greenlight/schema-plugin": "^1.0.1",
-    "@greenlight/schema-report": "^1.0.0",
+    "@greenlight/schema-plugin": "^1.2.0",
+    "@greenlight/schema-report": "^1.2.0",
     "ajv": "^6.4.0",
     "make-dir": "^1.2.0",
     "smart-promise": "^2.0.0"

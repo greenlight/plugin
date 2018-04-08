@@ -1,8 +1,0 @@
-{
-  "name": "foolint",
-  "description": "foo linting tool",
-  "drivers": {
-    "filesystem": ["file"],
-    "git": true
-  }
-}
