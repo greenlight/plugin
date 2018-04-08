@@ -1,7 +1,7 @@
 repository:
-  name: plugin
-  description: 🚦 Greenlight Plugin Runner
-  topics: greenlight, plugin
+  name: docker
+  description: 🚦 Greenlight Docker Manager
+  topics: greenlight, docker
   homepage: https://greenlight.ci/
   private: false
   has_issues: true
