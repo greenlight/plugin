@@ -17,3 +17,9 @@ test('invalid info', async assert => {
 
   assert.rejects(info('greenlight/invalid'), { message: 'validation failed' })
 })
+
+test('SpawnError', assert => {
+  assert.plan(1)
+
+  assert.rejects(info('greenlight/foobar'), 'SpawnError')
+})

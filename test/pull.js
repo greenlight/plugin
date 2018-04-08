@@ -5,7 +5,7 @@ const pull = require('../lib/pull')
 test('pull success', async assert => {
   assert.plan(1)
 
-  const result = await pull('alpine')
+  const result = await pull('alpine', 'latest', 'index.docker.io')
 
   assert.match(result, /Status:.+/)
 })
