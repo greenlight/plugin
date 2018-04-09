@@ -1,25 +1,25 @@
-const { test } = require('tap')
+// const { test } = require('tap')
 
-const info = require('../lib/info')
+// const info = require('../lib/info')
 
-const plugin = require('./fixtures/plugin.json')
+// const plugin = require('./fixtures/plugin.json')
 
-test('valid info', async assert => {
-  assert.plan(1)
+// test('valid info', async assert => {
+//   assert.plan(1)
 
-  const result = await info('greenlight/valid')
+//   const result = await info('greenlight/valid')
 
-  assert.same(result, plugin)
-})
+//   assert.same(result, plugin)
+// })
 
-test('invalid info', async assert => {
-  assert.plan(1)
+// test('invalid info', async assert => {
+//   assert.plan(1)
 
-  assert.rejects(info('greenlight/invalid'), { message: 'validation failed' })
-})
+//   assert.rejects(info('greenlight/invalid'), { message: 'validation failed' })
+// })
 
-test('SpawnError', assert => {
-  assert.plan(1)
+// test('SpawnError', assert => {
+//   assert.plan(1)
 
-  assert.rejects(info('greenlight/foobar'), 'SpawnError')
-})
+//   assert.rejects(info('greenlight/foobar'), 'SpawnError')
+// })

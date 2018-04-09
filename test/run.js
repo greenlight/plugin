@@ -1,25 +1,25 @@
-const { test } = require('tap')
+// const { test } = require('tap')
 
-const run = require('../lib/run')
+// const run = require('../lib/run')
 
-const report = require('./fixtures/report.json')
+// const report = require('./fixtures/report.json')
 
-test('valid run', async assert => {
-  assert.plan(1)
+// test('valid run', async assert => {
+//   assert.plan(1)
 
-  const result = await run('greenlight/valid', undefined, '/code', '/tmp')
+//   const result = await run('greenlight/valid', undefined, '/code', '/tmp')
 
-  assert.same(result, report)
-})
+//   assert.same(result, report)
+// })
 
-test('invalid run', assert => {
-  assert.plan(1)
+// test('invalid run', assert => {
+//   assert.plan(1)
 
-  assert.rejects(run('greenlight/invalid', {}, '/code', '/tmp'), { message: 'Unexpected token' })
-})
+//   assert.rejects(run('greenlight/invalid', {}, '/code', '/tmp'), { message: 'Unexpected token' })
+// })
 
-test('SpawnError', assert => {
-  assert.plan(1)
+// test('SpawnError', assert => {
+//   assert.plan(1)
 
-  assert.rejects(run('greenlight/foobar', {}, '/code', '/tmp'), 'SpawnError')
-})
+//   assert.rejects(run('greenlight/foobar', {}, '/code', '/tmp'), 'SpawnError')
+// })
