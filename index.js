@@ -8,6 +8,7 @@ const make = require('make-dir')
 const sanitize = require('sanitize-filename')
 const schema = require('@greenlight/schema-report')
 
+const check = require('./lib/check')
 const info = require('./lib/info')
 const pull = require('./lib/pull')
 const Transform = require('./lib/transform')
@@ -39,11 +40,15 @@ module.exports = class Docker extends EventEmitter {
     }
   }
 
-  async info () {
+  check () {
+    return check(this.fullname)
+  }
+
+  info () {
     return info(this.fullname)
   }
 
-  async pull () {
+  pull () {
     return pull(this.fullname)
   }
 
