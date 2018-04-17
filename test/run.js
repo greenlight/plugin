@@ -1,25 +1,38 @@
-// const { test } = require('tap')
+const { test } = require('tap')
 
-// const run = require('../lib/run')
+const Docker = require('..')
 
-// const report = require('./fixtures/report.json')
+const fixture = require('./fixtures/report.json')
 
-// test('valid run', async assert => {
-//   assert.plan(1)
+test('run:success', assert => {
+  assert.plan(6)
 
-//   const result = await run('greenlight/valid', undefined, '/code', '/tmp')
+  const docker = new Docker('greenlight/valid')
 
-//   assert.same(result, report)
-// })
+  docker.on('data', data => assert.match(data, fixture))
+  docker.on('end', code => assert.equal(0, code))
 
-// test('invalid run', assert => {
-//   assert.plan(1)
+  docker.run('/code')
+})
 
-//   assert.rejects(run('greenlight/invalid', {}, '/code', '/tmp'), { message: 'Unexpected token' })
-// })
+test('run:invalid', assert => {
+  assert.plan(2)
 
-// test('SpawnError', assert => {
-//   assert.plan(1)
+  const docker = new Docker('greenlight/invalid')
 
-//   assert.rejects(run('greenlight/foobar', {}, '/code', '/tmp'), 'SpawnError')
-// })
+  docker.on('error:schema', error => assert.match(error, /should NOT have additional properties/))
+  docker.on('end', code => assert.equal(0, code))
+
+  docker.run('/code')
+})
+
+test('run:fail', assert => {
+  assert.plan(2)
+
+  const docker = new Docker('greenlight/foobar')
+
+  docker.on('error:stderr', error => assert.match(error, /Unable to find image 'greenlight\/foobar:latest' locally/))
+  docker.on('end', code => assert.equal(125, code))
+
+  docker.run('/code')
+})

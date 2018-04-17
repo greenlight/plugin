@@ -1,20 +1,27 @@
-const { createHash } = require('crypto')
 const { EventEmitter } = require('events')
 const { join, resolve } = require('path')
 const { promisify } = require('util')
 const { spawn } = require('child_process')
-const { writeFile } = require('fs')
 const Ajv = require('ajv')
+const fs = require('fs')
 const make = require('make-dir')
+const sanitize = require('sanitize-filename')
 const schema = require('@greenlight/schema-report')
-const spawnPromise = require('@ahmadnassri/spawn-promise')
 
+const info = require('./lib/info')
+const pull = require('./lib/pull')
 const Transform = require('./lib/transform')
 
 const ajv = new Ajv()
 const validate = ajv.compile(schema)
 
-const write = promisify(writeFile)
+const append = promisify(fs.appendFile)
+const close = promisify(fs.close)
+const open = promisify(fs.open)
+const write = promisify(fs.writeFile)
+const touch = filename => open(filename, 'w').then(close)
+
+const DEBUG = !!+process.env.GREENLIGHT_DEBUG
 
 module.exports = class Docker extends EventEmitter {
   constructor (name, tag = 'latest', settings = {}, options = {}) {
@@ -24,53 +31,30 @@ module.exports = class Docker extends EventEmitter {
     this.tag = tag
     this.options = options
     this.settings = settings === true ? {} : settings
-  }
 
-  hash (name) {
-    return 'greenlight-' + createHash('sha1').update(name).digest('hex')
+    this.fullname = `${this.name}:${this.tag}`
+
+    if (this.options.registry) {
+      this.fullname = `${this.options.registry}/${this.fullname}`
+    }
   }
 
   async info () {
-    const args = [
-      'images',
-      '--format="{{.Repository}}"',
-      '-q', this.name
-    ]
-
-    const { stdout, stderr } = await spawnPromise('docker', args, { encoding: 'utf-8', shell: true })
-
-    if (stderr) throw new Error(stderr.trim())
-
-    return stdout.trim()
+    return info(this.fullname)
   }
 
   async pull () {
-    let name = `${this.name}:${this.tag}`
-
-    if (this.options.registry) {
-      name = `${this.options.registry}/${this.name}`
-    }
-    const args = [
-      'pull',
-      name
-    ]
-
-    const { stdout, stderr } = await spawnPromise('docker', args, { encoding: 'utf-8' })
-
-    if (stderr) throw new Error(stderr.trim())
-
-    return stdout.trim().split('\n').find(line => line.match(/^Status:.+/))
+    return pull(this.fullname)
   }
 
-  async run (mounts, temp) {
-    const id = this.hash(this.name)
-
-    // settings to object
+  async run (mounts, temp = '/tmp/greenlight/') {
+    // paths
+    const name = sanitize(this.fullname, { replacement: '-' })
 
     const path = {
-      report: join(temp, id, 'report'),
-      errors: join(temp, id, 'errors'),
-      settings: resolve(join(temp, id, 'settings'))
+      report: join(temp, name, 'report'),
+      errors: join(temp, name, 'errors'),
+      settings: resolve(join(temp, name, 'settings'))
     }
 
     // docker run args
@@ -84,24 +68,30 @@ module.exports = class Docker extends EventEmitter {
       '--net', 'none',
       '--volume', `${path.settings}:/settings.json:ro`,
       '--volume', `${resolve(mounts)}:/source:ro`,
-      '--name', id,
-      `${this.name}:${this.tag}`
+      '--name', name,
+      this.fullname
     ]
 
     // make output dir
-    await make(temp, id)
+    await make(join(temp, name))
 
     // store settings
     await write(path.settings, JSON.stringify(this.settings))
 
     const child = spawn('docker', args)
 
-    // child.on('error', err => new Error(1, err))
+    // open & reset files
+    if (DEBUG) {
+      await touch(path.report)
+      await touch(path.errors)
+    }
 
     child.stdout.pipe(new Transform()).on('data', async data => {
-      await write(path.report, data)
+      if (DEBUG) await append(path.report, data + '\n')
 
-      const valid = validate(JSON.parse(data))
+      data = JSON.parse(data)
+
+      const valid = validate(data)
 
       if (!valid) {
         this.emit('error:schema', `${validate.errors[0].dataPath} ${validate.errors[0].message}`, validate.errors)
@@ -112,9 +102,9 @@ module.exports = class Docker extends EventEmitter {
     })
 
     child.stderr.pipe(new Transform()).on('data', async data => {
-      await write(path.errors, data)
+      if (DEBUG) await append(path.errors, data + '\n')
 
-      this.emit('error:spawn', JSON.parse(data))
+      this.emit('error:stderr', data.toString())
     })
 
     child.on('close', code => this.emit('end', code))

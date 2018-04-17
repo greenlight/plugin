@@ -1,19 +1,17 @@
 const { test } = require('tap')
 
-const Docker = require('..')
+const pull = require('../lib/pull')
 
-test('pull success', async assert => {
+test('pull:success', async assert => {
   assert.plan(1)
 
-  const docker = new Docker('alpine', 'latest', {}, { registry: 'index.docker.io' })
-
-  const result = docker.pull()
+  const result = await pull('alpine:latest')
 
   assert.match(result, /Status:.+/)
 })
 
-// test('pull fail', async assert => {
-//   assert.plan(1)
+test('pull:fail', assert => {
+  assert.plan(1)
 
-//   assert.rejects(pull('greenlight/invalid'), { message: 'pull access denied for greenlight/invalid' })
-// })
+  assert.rejects(() => pull('greenlight/invalid'), { message: 'pull access denied for greenlight/invalid' })
+})

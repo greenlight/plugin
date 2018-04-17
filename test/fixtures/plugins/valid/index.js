@@ -18,11 +18,12 @@ const issue = {
   }
 }
 
-// console.log(JSON.stringify(report))
-
-for (let i = 1; i <= 100; i++) {
+for (let i = 1; i <= 5; i++) {
   issue.id = String(i)
 
   process.stdout.write(JSON.stringify(issue))
   process.stdout.write('\0')
+
+  process.stderr.write(`${issue.id} debug message`)
+  process.stderr.write('\0')
 }
