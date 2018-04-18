@@ -25,15 +25,14 @@ const touch = filename => open(filename, 'w').then(close)
 const DEBUG = !!+process.env.GREENLIGHT_DEBUG
 
 module.exports = class Docker extends EventEmitter {
-  constructor (name, tag = 'latest', settings = {}, options = {}) {
+  constructor (name, settings = {}, options = {}) {
     super()
 
     this.name = name
-    this.tag = tag
     this.options = options
     this.settings = settings === true ? {} : settings
 
-    this.fullname = `${this.name}:${this.tag}`
+    this.fullname = this.name
 
     if (this.options.registry) {
       this.fullname = `${this.options.registry}/${this.fullname}`
