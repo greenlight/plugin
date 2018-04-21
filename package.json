@@ -1,7 +1,7 @@
 {
   "version": "0.0.0-development",
   "name": "@greenlight/docker",
-  "description": "Greenlight Docker Manager",
+  "description": "Greenlight Docker Interface",
   "author": "Ahmad Nassri <ahmad@ahmadnassri.com> (https://www.ahmadnassri.com/)",
   "homepage": "https://greenlight.ci/",
   "repository": {
