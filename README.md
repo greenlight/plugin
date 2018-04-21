@@ -2,7 +2,7 @@
 
 # Greenlight Docker [![version][npm-version]][npm-url] [![License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
-> [Greenlight][] Docker Manager
+> [Greenlight][] Docker Interface Library
 
 ## Install
 
