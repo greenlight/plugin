@@ -1,6 +1,6 @@
 repository:
   name: docker
-  description: 🚦 Greenlight Docker Manager
+  description: 🚦 Greenlight Docker Interface
   topics: greenlight, docker
   homepage: https://greenlight.ci/
   private: false
