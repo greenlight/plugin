@@ -42,7 +42,7 @@
     "@greenlight/schema-plugin": "^1.4.0",
     "@greenlight/schema-report": "^1.5.0",
     "ajv": "^6.4.0",
-    "make-dir": "^1.2.0",
+    "make-dir": "^3.0.0",
     "sanitize-filename": "^1.6.1",
     "smart-promise": "^2.0.0"
   }
